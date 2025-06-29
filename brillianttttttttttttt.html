@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brilliant ICT Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #030712;
+      color: white;
+    }
+    .gradient-text {
+      background: linear-gradient(to right, #8A2BE2, #00BFFF);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-item {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    /* Default nav underline */
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(to right, #8A2BE2, #00BFFF);
+      transition: width 0.3s ease;
+    }
+    .nav-item:hover::after {
+      width: 100%;
+    }
+    .nav-item:hover {
+      transform: scale(1.1);
+    }
+    /* Separate colors for Courses */
+    a[href="#courses"]::after {
+      background: linear-gradient(to right, #FF6A00, #FFD300);
+    }
+    a[href="#courses"]:hover::after {
+      width: 100%;
+    }
+    /* Separate colors for Highlights */
+    a[href="#highlights"]::after {
+      background: linear-gradient(to right, #00FF85, #00BFFF);
+    }
+    a[href="#highlights"]:hover::after {
+      width: 100%;
+    }
+    .card-3d {
+      transition: transform 0.5s, box-shadow 0.5s;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .card-3d:hover {
+      transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+      box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 50;
+      background: linear-gradient(to right, #8A2BE2, #00BFFF);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+      transition: opacity 0.3s;
+    }
+    .team-card {
+      perspective: 1000px;
+    }
+    .team-card-inner {
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+    .team-card:hover .team-card-inner {
+      transform: rotateY(180deg);
+    }
+    .team-card-front, .team-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      color: white;
+    }
+    .team-card-front {
+      background: linear-gradient(135deg, #6a0dad, #3a0ca3);
+      /* Front text styles */
+    }
+    .team-card-front h4 {
+      background: linear-gradient(to right, #f72585, #720026);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .team-card-front p {
+      color: #ff80ab;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .team-card-back {
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+      transform: rotateY(180deg);
+    }
+    .team-card-back h4 {
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #e0e0e0;
+      text-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
+    .team-card-back p {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+      color: #cce7ff;
+      margin-bottom: 6px;
+    }
+    .team-card-back p i {
+      font-size: 1.4rem;
+      color: #80d8ff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#0a0a1a] shadow-md">
+  <div class="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
+    <h1 class="text-2xl font-bold gradient-text">Brilliant ICT</h1>
+    <nav class="space-x-6 text-sm hidden md:flex">
+      <a href="#home" class="nav-item">Home</a>
+      <a href="#about" class="nav-item">About</a>
+      <a href="#courses" class="nav-item">Courses</a>
+      <a href="#highlights" class="nav-item">Highlights</a>
+      <a href="#contact" class="nav-item">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section id="home" class="pt-32 pb-20 bg-gradient-to-br from-[#030712] to-[#1e1b4b] text-center">
+  <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Welcome to Brilliant ICT Academy</h2>
+  <p class="text-xl text-gray-300">Empowering learners with essential digital skills in Trincomalee</p>
+  <marquee class="text-lg text-green-400 mt-6">Join Our Professional ICT and Computer Courses Today!</marquee>
+</section>
+
+<!-- About -->
+<section id="about" class="py-16 bg-[#111827] px-6 text-center">
+  <h3 class="text-3xl font-bold mb-6 gradient-text">About Us</h3>
+  <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+    <strong>Brilliant ICT Academy</strong> is the leading ICT training center in Trincomalee offering 
+    <em>industry-relevant</em> courses for students and professionals. Our vision is to 
+    <u>empower learners</u> with essential digital skills.
+  </p>
+</section>
+
+<!-- Courses -->
+<section id="courses" class="py-16 bg-[#030712] px-6">
+  <h3 class="text-3xl font-bold text-center mb-12 gradient-text">Our Courses</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div class="card-3d bg-[#0f172a] p-6 rounded-xl text-center">
+      <h4 class="text-xl font-semibold mb-2 text-primary">Introduction to ICT</h4>
+      <p class="text-gray-300">🕒 3 Months<br>🧠 Beginner</p>
+    </div>
+    <div class="card-3d bg-[#0f172a] p-6 rounded-xl text-center">
+      <h4 class="text-xl font-semibold mb-2 text-primary">Web Design with HTML & CSS</h4>
+      <p class="text-gray-300">🕒 4 Months<br>🧠 Intermediate</p>
+    </div>
+    <div class="card-3d bg-[#0f172a] p-6 rounded-xl text-center">
+      <h4 class="text-xl font-semibold mb-2 text-primary">Python Programming</h4>
+      <p class="text-gray-300">🕒 6 Months<br>🧠 Advanced</p>
+    </div>
+  </div>
+</section>
+
+<!-- Highlights -->
+<section id="highlights" class="py-16 bg-[#111827] px-6">
+  <h3 class="text-3xl font-bold text-center mb-12 gradient-text">Course Highlights</h3>
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="card-3d p-6 bg-[#0f172a] rounded-lg">
+      <h4 class="text-xl font-bold text-[#3333cc] mb-2">HTML & Web Design</h4>
+      <p class="text-gray-300">Learn to create attractive and functional websites using HTML and CSS.</p>
+    </div>
+    <div class="card-3d p-6 bg-[#0f172a] rounded-lg">
+      <h4 class="text-xl font-bold text-[#cc3333] mb-2">Programming</h4>
+      <p class="text-gray-300">Understand logical thinking with hands-on Python programming tasks.</p>
+    </div>
+    <div class="card-3d p-6 bg-[#0f172a] rounded-lg">
+      <h4 class="text-xl font-bold text-[#339966] mb-2">Networking Basics</h4>
+      <p class="text-gray-300">Get introduced to network topologies, IP addressing, and basic configurations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Owner Card -->
+<section id="contact" class="py-20 bg-[#030712] px-6 text-center">
+  <h3 class="text-3xl font-bold mb-10 gradient-text">Contact Us</h3>
+  <div class="flex justify-center">
+    <div class="team-card w-80 h-96 relative">
+      <div class="team-card-inner w-full h-full relative rounded-lg">
+        <!-- Front -->
+        <div class="team-card-front flex flex-col items-center justify-center">
+          <div class="w-32 h-32 rounded-full bg-gray-300 mb-4 overflow-hidden shadow-lg">
+            <img src="umashanker.png" alt="Owner" class="w-full h-full object-cover">
+          </div>
+          <h4>N. Umashankar</h4>
+          <p>Instructor</p>
+        </div>
+        <!-- Back -->
+        <div class="team-card-back flex flex-col justify-center items-center">
+          <h4>Contact Info</h4>
+          <p><i class="ri-phone-line"></i> 0774822134</p>
+          <p><i class="ri-map-pin-line"></i> Trincomalee</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-[#0a0a1a] py-6 text-center text-gray-400 text-sm">
+  <p>📍 No. 12, Main Street, Trincomalee, Sri Lanka</p>
+  <p class="mt-1">&copy; 2025 Brilliant ICT Academy. All rights reserved.</p>
+</footer>
+
+<!-- Back to Top Button (hidden until scroll) -->
+<button id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
+  class="back-to-top hidden">
+  ↑
+</button>
+
+<script>
+  const btn = document.getElementById('backToTop');
+  window.onscroll = () => {
+    if (window.scrollY > 200) {
+      btn.classList.remove('hidden');
+    } else {
+      btn.classList.add('hidden');
+    }
+  };
+</script>
+
+</body>
+</html>
