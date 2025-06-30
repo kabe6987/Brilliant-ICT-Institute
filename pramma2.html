@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Title-->
+    <title>Vehicle License Verification System</title>
+    <!--Title Image/icon import your logo-->
+    <link rel="shortcut icon" href="" type="image/x-icon">
+
+    <!--Tailwind css-->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = {
+            theme: {
+                extend:
+                {
+                    colors:
+                        { primary: '#8A2BE2', secondary: '#00BFFF' },
+                    borderRadius: {
+                        'none': '0px', 'sm': '4px',
+                        DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px'
+                    }
+                }
+            }
+        }</script>
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+    <!--Internel CSS-->
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #8A2BE2, #00BFFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .gradient-border {
+            position: relative;
+            border-radius: 8px;
+            background: linear-gradient(#0a0a1a, #0a0a1a) padding-box,
+                linear-gradient(90deg, #8A2BE2, #00BFFF) border-box;
+            border: 2px solid transparent;
+        }
+
+        .glow {
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .particle-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+
+            50% {
+                transform: translateY(0) translateX(20px);
+            }
+
+            75% {
+                transform: translateY(20px) translateX(10px);
+            }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8A2BE2, #00BFFF);
+            z-index: 100;
+        }
+
+        .nav-item {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8A2BE2, #00BFFF);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+
+        .nav-item:hover {
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+        }
+
+        .card-3d {
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card-3d:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #8A2BE2, #00BFFF);
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 30px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: linear-gradient(180deg, #8A2BE2, rgba(0, 191, 255, 0.3));
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .tech-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tech-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .code-block {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #0f172a;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(138, 43, 226, 0.1), rgba(0, 191, 255, 0.1));
+            z-index: 0;
+        }
+
+        .code-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-card {
+            perspective: 1000px;
+        }
+
+        .team-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .team-card:hover .team-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .team-card-front,
+        .team-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+        }
+
+        .team-card-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-20px);
+            }
+
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        input:focus,
+        button:focus {
+            outline: none;
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #8A2BE2;
+            border-radius: 4px;
+            background-color: transparent;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .custom-checkbox:checked {
+            background-color: #8A2BE2;
+        }
+
+        .custom-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .roadmap-line {
+            position: absolute;
+            top: 0;
+            left: 20px;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #8A2BE2, #00BFFF);
+            z-index: 0;
+        }
+
+        .roadmap-item {
+            position: relative;
+            z-index: 1;
+        }
+
+        .roadmap-dot {
+            position: absolute;
+            left: -30px;
+            top: 15px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #8A2BE2, #00BFFF);
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+        }
+
+        #about-image {
+            height: 380px;
+            width: 1500px;
+            margin-left: 50%;
+        }
+
+        /Mobile View/
+        @media (max-width:400px) {
+            /Create the ID for each elements and add css media query for view on mobile phone/
+
+        }
+    </style>
+</head><body class="min-h-screen">
+
+    <div class="progress-bar" id="progressBar"></div>
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300" id="navbar">
+        <!--Navbar For Desktop View-->
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="javascript:void(0);" class="text-2xl font-['Quicksand'] gradient-text">R-LiVe</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-item text-white hover:text-primary transition-all">Home</a>
+                <a href="#how-it-works" class="nav-item text-white hover:text-primary transition-all">How it Works</a>
+                <a href="#what-we-used" class="nav-item text-white hover:text-primary transition-all">What We Used</a>
+                <a href="#coding" class="nav-item text-white hover:text-primary transition-all">Coding</a>
+                <a href="#what-we-need" class="nav-item text-white hover:text-primary transition-all">What We Need</a>
+                <a href="#future-plan" class="nav-item text-white hover:text-primary transition-all">Future Plan</a>
+                <a href="#about" class="nav-item text-white hover:text-primary transition-all">About</a>
+            </nav>
+            <div class="md:hidden flex items-center">
+                <button id="menuBtn" class="text-white focus:outline-none">
+                    <div class="w-10 h-10 flex items-center justify-center">
+                        <i class="ri-menu-line ri-lg"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <!--Navbar for Mobile View-->
+        <div id="mobileMenu"
+            class="fixed inset-0 bg-black bg-opacity-95 z-50 transform translate-x-full transition-transform duration-300 md:hidden">
+            <div class="container mx-auto px-6 py-8">
+                <div class="flex justify-end mb-8">
+                    <button id="closeMenuBtn" class="text-white focus:outline-none">
+                        <div class="w-10 h-10 flex items-center justify-center">
+                            <i class="ri-close-line ri-lg"></i>
+                        </div>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-6">
+                    <a href="#home" class="nav-item text-xl text-white hover:text-primary transition-all">Home</a>
+                    <a href="#how-it-works" class="nav-item text-xl text-white hover:text-primary transition-all">How it
+                        Works</a>
+                    <a href="#what-we-used" class="nav-item text-xl text-white hover:text-primary transition-all">What
+                        We Used</a>
+                    <a href="#coding" class="nav-item text-xl text-white hover:text-primary transition-all">Coding</a>
+                    <a href="#what-we-need" class="nav-item text-xl text-white hover:text-primary transition-all">What
+                        We Need</a>
+                    <a href="#future-plan" class="nav-item text-xl text-white hover:text-primary transition-all">Future
+                        Plan</a>
+                    <a href="#about" class="nav-item text-xl text-white hover:text-primary transition-all">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center overflow-hidden"
+    style="background: linear-gradient(135deg, #030712 0%, #1e1b4b 100%);">
+    <div class="particle-bg" id="particleContainer"></div>
+    <div class="container mx-auto px-6 py-24 relative z-10">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0">
+                <h1 id="hero-heading" class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    <span class="gradient-text">AI-Powered</span> Vehicle License Verification
+                </h1>
+                <p class="text-xl text-gray-300 mb-8">
+                    Instantly verify vehicle license status with our advanced computer vision and AI technology.
+                    Upload a photo and get immediate results.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button
+                        class="px-8 py-3 border-2 border-primary text-white font-semibold rounded-button hover:bg-primary hover:bg-opacity-10 transition-all whitespace-nowrap">
+                        <a href="#what-we-used">What We Used</a>
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative" id="heroAnimation">
+                <div class="relative w-full h-80 md:h-96 gradient-border glow rounded-lg overflow-hidden">
+                    <img src="Home.jpg" alt="3D Interactive Experience"
+                        class="w-full h-full object-cover object-top">
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 scroll-indicator">
+            <div class="w-8 h-12 flex items-center justify-center">
+                <i class="ri-arrow-down-line ri-lg text-white"></i>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- How it Works Section -->
+            <section id="how-it-works" class="relative py-24 bg-[#111827]">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold mb-4">How Our <span class="gradient-text">License Verification
+                                Works</span></h2>
+                        <p class="text-xl text-gray-300 max-w-3xl mx-auto">Combining cutting-edge AI with database
+                            verification for accurate license plate validation.
+
+                        </p>
+                    </div>
+                    <div class="relative">
+                        <div
+                            class="hidden md:block absolute left-1/2 top-0 h-full w-0.5 bg-gradient-to-b from-primary to-secondary">
+                        </div>
+
+                        <div class="space-y-24">
+                            <!--01. Images and Explaination-->
+                            <div class="timeline-item flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
+                                    <div class="card-3d gradient-border p-6 h-full">
+                                        <h3 class="text-2xl font-bold mb-4">1. Image Upload
+                                        </h3>
+                                        <p class="text-gray-300 mb-4">
+                                            Users upload a photo of the vehicle. Our system automatically crops and
+                                            enhances
+                                            the license plate area.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12">
+                                    <div class="relative w-full h-64 rounded-lg overflow-hidden gradient-border">
+                                        <img src="upload.jpg" alt="image upload"
+                                            class="w-full h-full object-cover object-top">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--02. Images and Explaination-->
+
+                            <div class="timeline-item flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 mb-8 md:mb-0 md:pl-12">
+                                    <div class="card-3d gradient-border p-6 h-full">
+                                        <h3 class="text-2xl font-bold mb-4">2. AI Processing</h3>
+                                        <p class="text-gray-300 mb-4">Our trained LLM model from Groq analyzes the image
+                                            to
+                                            detect and read the license plate characters with 98% accuracy.</p>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 md:pr-12">
+                                    <div class="relative w-full h-64 rounded-lg overflow-hidden gradient-border">
+                                        <img src="AI Process.jpg" alt="AI process"
+                                            class="w-full h-full object-cover object-top">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--03. Images and Explaination-->
+
+                            <div class="timeline-item flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
+                                    <div class="card-3d gradient-border p-6 h-full">
+                                        <h3 class="text-2xl font-bold mb-4">3. Database Check
+                                        </h3>
+                                        <p class="text-gray-300 mb-4">The detected license plate is checked against our
+                                            comprehensive database of registered vehicles.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12">
+                                    <div class="relative w-full h-64 rounded-lg overflow-hidden gradient-border">
+                                        <img src="Database.jpg" alt="DB check"
+                                            class="w-full h-full object-cover object-top">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--04. Images and Explaination-->
+
+                            <div class="timeline-item flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 mb-8 md:mb-0 md:pl-12">
+                                    <div class="card-3d gradient-border p-6 h-full">
+                                        <h3 class="text-2xl font-bold mb-4">4. Verification
+                                        </h3>
+                                        <p class="text-gray-300 mb-4">The system validates the license status -
+                                            confirming
+                                            validity, identifying expired licenses, or detecting fake plates.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 md:pr-12">
+                                    <div class="relative w-full h-64 rounded-lg overflow-hidden gradient-border">
+                                        <img src="verification.jpg" alt="Verification"
+                                            class="w-full h-full object-cover object-top">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--05. Images and Explaination-->
+
+                            <div class="timeline-item flex flex-col md:flex-row items-center">
+                                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
+                                    <div class="card-3d gradient-border p-6 h-full">
+                                        <h3 class="text-2xl font-bold mb-4">5. Result Display
+
+                                        </h3>
+                                        <p class="text-gray-300 mb-4">Instant color-coded results show the status
+                                            (green=valid, orange=expired, red=fake) with supporting details.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 md:pl-12">
+                                    <div class="relative w-full h-64 rounded-lg overflow-hidden gradient-border">
+                                        <img src="result.jpg" alt="Result"
+                                            class="w-full h-full object-cover object-top">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--06. Images and Explaination-->
+
+                            <div class="timeline-item flex flex-col md:flex-row-reverse items-center">
+                                <div class="md:w-1/2 mb-8 md:mb-0 md:pl-12">
+                                    <div class="card-3d gradient-border p-6 h-full">
+                                        <h3 class="text-2xl font-bold mb-4">6. Database Updates
+                                        </h3>
+                                        <p class="text-gray-300 mb-4">Our Json database is continuously updated with new
+                                            vehicle registrations and renewal information.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 md:pr-12">
+                                    <div class="relative w-full h-64 rounded-lg overflow-hidden gradient-border">
+                                        <img src="DB update.jpg" alt="DB Update"
+                                            class="w-full h-full object-cover object-top">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+<!-- What We Used Section -->
+            <section id="what-we-used" class="relative py-24 bg-[#030712]">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold mb-4">What We <span class="gradient-text">Used</span></h2>
+                        <p class="text-xl text-gray-300 max-w-3xl mx-auto">Lorem ipsum dolor sit amet consectetur,
+                            adipisicing elit. Aliquid dolorum quibusdam error modi sunt eius officia animi fuga
+                            asperiores delectus minus, quidem fugiat voluptatum voluptate quos. Officiis at eius
+                            provident!</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!--Html Section-->
+                        <div class="tech-card gradient-border p-6 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary to-secondary opacity-20 rounded-full">
+                            </div>
+
+                            <div
+                                class="w-16 h-16 flex items-center justify-center mb-4 bg-gradient-to-r from-primary to-secondary bg-opacity-10 rounded-lg">
+                                <i class="ri-code-s-slash-line ri-2x text-primary"></i>
+                            </div>
+
+                            <h3 class="text-xl font-bold mb-2">Html</h3>
+                            <p class="text-gray-300">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi
+                                voluptate fugiat dolore ab numquam eligendi.</p>
+                        </div>
+
+                        <!--CSS Section-->
+
+                        <div class="tech-card gradient-border p-6 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary to-secondary opacity-20 rounded-full">
+                            </div>
+
+                            <div
+                                class="w-16 h-16 flex items-center justify-center mb-4 bg-gradient-to-r from-primary to-secondary bg-opacity-10 rounded-lg">
+                                <i class="ri-css3-line ri-2x text-primary"></i>
+                            </div>
+
+                            <h3 class="text-xl font-bold mb-2">CSS</h3>
+                            <p class="text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+                                repellendus totam quis laudantium non adipisci!</p>
+                        </div>
+
+                        <!--Python Section-->
+
+                        <div class="tech-card gradient-border p-6 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary to-secondary opacity-20 rounded-full">
+                            </div>
+
+                            <div
+                                class="w-16 h-16 flex items-center justify-center mb-4 bg-gradient-to-r from-primary to-secondary bg-opacity-10 rounded-lg">
+                                <i class="ri-python-line ri-2x text-primary"></i>
+                            </div>
+
+                            <h3 class="text-xl font-bold mb-2">Python</h3>
+                            <p class="text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
+                                ipsum laudantium placeat repudiandae culpa ab.</p>
+                        </div>
+
+                        <!--Json Section-->
+
+                        <div class="tech-card gradient-border p-6 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary to-secondary opacity-20 rounded-full">
+                            </div>
+
+                            <div
+                                class="w-16 h-16 flex items-center justify-center mb-4 bg-gradient-to-r from-primary to-secondary bg-opacity-10 rounded-lg">
+                                <i class="ri-json-line ri-2x text-primary"></i>
+                            </div>
+
+                            <h3 class="text-xl font-bold mb-2">Json</h3>
+                            <p class="text-gray-300"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus
+                                eius adipisci error est magni at.</p>
+                        </div>
+
+                        <!--Groq Section-->
+
+                        <div class="tech-card gradient-border p-6 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary to-secondary opacity-20 rounded-full">
+                            </div>
+
+                            <div
+                                class="w-16 h-16 flex items-center justify-center mb-4 bg-gradient-to-r from-primary to-secondary bg-opacity-10 rounded-lg">
+                                <i class="ri-json-line ri-2x text-primary"></i>
+                            </div>
+
+                            <h3 class="text-xl font-bold mb-2">Groq</h3>
+                            <p class="text-gray-300"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus
+                                eius adipisci error est magni at.</p>
+                        </div>
+
+
+
+ <!--LLAMA Section-->
+
+                        <div class="tech-card gradient-border p-6 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary to-secondary opacity-20 rounded-full">
+                            </div>
+
+                            <div
+                                class="w-16 h-16 flex items-center justify-center mb-4 bg-gradient-to-r from-primary to-secondary bg-opacity-10 rounded-lg">
+                                <i class="ri-json-line ri-2x text-primary"></i>
+                            </div>
+
+                            <h3 class="text-xl font-bold mb-2">LLAMA</h3>
+                            <p class="text-gray-300"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus
+                                eius adipisci error est magni at.</p>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coding Section -->
+            <section id="coding" class="relative py-24 bg-[#111827]">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">Coding</span> Excellence</h2>
+                        <p class="text-xl text-gray-300 max-w-3xl mx-auto">Lorem ipsum dolor, sit amet consectetur
+                            adipisicing elit. Commodi inventore dignissimos iure ullam illo quod hic corporis mollitia
+                            deleniti ut.</p>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                        <!--HTML Code -->
+
+                        <div class="card-3d">
+                            <div class="code-block p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold">index.html</h3>
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                </div>
+                                <!--Paste the html Code between &lt;" CODE "&gt;-->
+                                <!--important point is do not enter this symbol < > in pasting code because pasting code is run with website code -->
+                                <div class="code-content font-mono text-sm text-gray-300 overflow-x-auto">
+                                    <pre>
+
+&lt;!DOCTYPE html
+html lang="en"
+head
+meta charset="UTF-8"
+meta charset="UTF-8"
+meta name="viewport" content="width=device-width, initial-scale=1.0"
+title R-LiVe - AI Vehicle License Verification/title
+script src="https://cdn.tailwindcss.com"/script
+style
+&gt;
+
+</pre>
+
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-2">Explaination HTML
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam veritatis, blanditiis
+                            quaerat beatae laudantium accusantium! Eos quis, possimus molestias non veniam quibusdam
+                            sint nemo numquam ad nulla amet aperiam consectetur tenetur quas architecto quos, quisquam
+                            quod. Suscipit, sunt, explicabo error blanditiis cupiditate, cum illum eius velit iure quos
+                            culpa porro.
+                        </p>
+
+                        
+
+                        
+
+
+
+                        <!--CSS Code -->
+
+
+                        <p class="mt-2">Explaination CSS
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam veritatis, blanditiis
+                            quaerat beatae laudantium accusantium! Eos quis, possimus molestias non veniam quibusdam
+                            sint nemo numquam ad nulla amet aperiam consectetur tenetur quas architecto quos, quisquam
+                            quod. Suscipit, sunt, explicabo error blanditiis cupiditate, cum illum eius velit iure quos
+                            culpa porro.
+                        </p>
+
+                        <div class="card-3d">
+                            <div class="code-block p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold">style.css</h3>
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                </div>
+
+                                <div class="code-content font-mono text-sm text-gray-300 overflow-x-auto">
+
+                                    <pre>
+.upload-container {
+background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+.result-valid {
+box-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+}
+.result-expired {
+box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+}
+.result-fake {
+box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+.how-it-works-card {
+transition: all 0.3s ease;
+}
+.how-it-works-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(138, 43, 226, 0.5);
+}
+
+</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Python Code -->
+
+                        <div class="card-3d">
+                            <div class="code-block p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold">main.py</h3>
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                </div>
+                                <div class="code-content font-mono text-sm text-gray-300 overflow-x-auto">
+                                    <pre>
+import cv2  
+import numpy as np
+from keras.models import load_model
+class LicensePlateVerifier:
+def _init_(self, model_path):
+self.model = load_model(model_path)
+def preprocess_image(self, image):
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+image = cv2.resize(image, (224, 224))
+</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="mt-2">Explaination PYTHON
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam veritatis, blanditiis
+                            quaerat beatae laudantium accusantium! Eos quis, possimus molestias non veniam quibusdam
+                            sint nemo numquam ad nulla amet aperiam consectetur tenetur quas architecto quos, quisquam
+                            quod. Suscipit, sunt, explicabo error blanditiis cupiditate, cum illum eius velit iure quos
+                            culpa porro.
+                        </p>
+
+                        <!--Json Code -->
+
+                        <p class="mt-2">Explaination JSON
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam veritatis, blanditiis
+                            quaerat beatae laudantium accusantium! Eos quis, possimus molestias non veniam quibusdam
+                            sint nemo numquam ad nulla amet aperiam consectetur tenetur quas architecto quos, quisquam
+                            quod. Suscipit, sunt, explicabo error blanditiis cupiditate, cum illum eius velit iure quos
+                            culpa porro.
+                        </p>
+                        <div class="card-3d">
+                            <div class="code-block p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold">storage.json</h3>
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                </div>
+                                <div class="code-content font-mono text-sm text-gray-300 overflow-x-auto">
+                                    <pre>
+"vehicles": [
+{
+"license_plate": "ABC123",
+"owner": "John Doe",    
+"vehicle": "Toyota Camry",
+"status": "valid"       
+}
+],
+"last_updated": "2023-10-01"
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<!-- What We Need Section -->
+            <section id="what-we-need" class="relative py-24 bg-[#030712]">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold mb-4">What We <span class="gradient-text">Need</span></h2>
+                        <p class="text-xl text-gray-300 max-w-3xl mx-auto">Lorem ipsum dolor sit amet consectetur
+                            adipisicing elit. Dolorum, impedit. Recusandae minus incidunt qui eveniet!</p>
+                    </div>
+                    <div class="flex items-center justify-center min-h-screen bg-gray-900">
+                        <div class="gap-12">
+                            <div class="gradient-border p-8">
+                                <center>
+                                    <h3 class="text-2xl font-bold mb-6 text-white">Technical Requirements</h3>
+                                </center>
+                                <div class="space-y-6 text-white">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="req1" class="custom-checkbox mr-4 mt-1" checked>
+                                        <div>
+                                            <label for="req1" class="text-lg font-semibold block mb-1">High-Performance
+                                                Cloud Infrastructure</label>
+                                            <p class="text-gray-300">Dedicated servers with GPU acceleration for
+                                                real-time 3D rendering and physics calculations.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="req2" class="custom-checkbox mr-4 mt-1" checked>
+                                        <div>
+                                            <label for="req2" class="text-lg font-semibold block mb-1">WebGL 2.0
+                                                Compatible Browsers</label>
+                                            <p class="text-gray-300">Support for modern browsers with advanced WebGL
+                                                capabilities for optimal 3D performance.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="req3" class="custom-checkbox mr-4 mt-1" checked>
+                                        <div>
+                                            <label for="req3" class="text-lg font-semibold block mb-1">Asset
+                                                Optimization Pipeline</label>
+                                            <p class="text-gray-300">Tools and workflows for compressing and optimizing
+                                                3D models, textures, and animations for web delivery.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="req4" class="custom-checkbox mr-4 mt-1" checked>
+                                        <div>
+                                            <label for="req4" class="text-lg font-semibold block mb-1">Progressive
+                                                Loading System</label>
+                                            <p class="text-gray-300">Implementation of level-of-detail and progressive
+                                                asset loading to improve initial page load times.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="req5" class="custom-checkbox mr-4 mt-1" checked>
+                                        <div>
+                                            <label for="req5" class="text-lg font-semibold block mb-1">Cross-Platform
+                                                Testing Environment</label>
+                                            <p class="text-gray-300">Infrastructure for testing across multiple devices,
+                                                browsers, and operating systems to ensure consistent experience.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Future Plan Section -->
+            <section id="future-plan" class="relative py-24 bg-[#111827]">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold mb-4">Future <span class="gradient-text">Plan</span></h2>
+                        <p class="text-xl text-gray-300 max-w-3xl mx-auto">Our roadmap for evolving and expanding our
+                            immersive 3D interactive experience.</p>
+                    </div>
+                    <div class="relative">
+                        <div class="roadmap-line"></div>
+                        <div class="space-y-16">
+                            <div class="roadmap-item flex flex-col md:flex-row">
+                                <div class="roadmap-dot"></div>
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <div class="gradient-border p-4 text-center">
+                                        <h4 class="text-xl font-bold mb-2">Q3 2025</h4>
+                                        <p class="text-primary font-semibold">Phase 1</p>
+                                    </div>
+                                </div>
+                                <div class="md:w-3/4 md:pl-8">
+                                    <div class="card-3d gradient-border p-6">
+                                        <h3 class="text-2xl font-bold mb-4">Core Technology Enhancement</h3>
+                                        <p class="text-gray-300 mb-6">Optimizing our foundation and expanding core
+                                            capabilities to support more complex interactions.</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">WebGPU Integration</h5>
+                                                    <p class="text-sm text-gray-400">Implement next-generation graphics
+                                                        API
+                                                        for improved performance</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Advanced Physics Engine</h5>
+                                                    <p class="text-sm text-gray-400">Upgrade to support more realistic
+                                                        interactions and simulations</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Asset Streaming System</h5>
+                                                    <p class="text-sm text-gray-400">Dynamic loading of high-resolution
+                                                        assets based on viewport</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Accessibility Improvements</h5>
+                                                    <p class="text-sm text-gray-400">Enhanced support for screen readers
+                                                        and
+                                                        alternative navigation</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-item flex flex-col md:flex-row">
+                                <div class="roadmap-dot"></div>
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <div class="gradient-border p-4 text-center">
+                                        <h4 class="text-xl font-bold mb-2">Q1 2026</h4>
+                                        <p class="text-primary font-semibold">Phase 2</p>
+                                    </div>
+                                </div>
+                                <div class="md:w-3/4 md:pl-8">
+                                    <div class="card-3d gradient-border p-6">
+                                        <h3 class="text-2xl font-bold mb-4">Interactive Experience Expansion</h3>
+                                        <p class="text-gray-300 mb-6">Introducing new ways for users to interact with
+                                            and
+                                            customize their 3D experience.</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">User-Generated Content</h5>
+                                                    <p class="text-sm text-gray-400">Tools for users to create and share
+                                                        custom 3D elements</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Collaborative Spaces</h5>
+                                                    <p class="text-sm text-gray-400">Multi-user environments for shared
+                                                        interactive experiences</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Advanced Animation System</h5>
+                                                    <p class="text-sm text-gray-400">More complex and reactive animation
+                                                        sequences</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Interactive Storytelling</h5>
+                                                    <p class="text-sm text-gray-400">Narrative elements that respond to
+                                                        user
+                                                        choices</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-item flex flex-col md:flex-row">
+                                <div class="roadmap-dot"></div>
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <div class="gradient-border p-4 text-center">
+                                        <h4 class="text-xl font-bold mb-2">Q3 2026</h4>
+                                        <p class="text-primary font-semibold">Phase 3</p>
+                                    </div>
+                                </div>
+                                <div class="md:w-3/4 md:pl-8">
+                                    <div class="card-3d gradient-border p-6">
+                                        <h3 class="text-2xl font-bold mb-4">Extended Reality Integration</h3>
+                                        <p class="text-gray-300 mb-6">Bridging the gap between web and immersive XR
+                                            experiences for next-level engagement.</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">WebXR Support</h5>
+                                                    <p class="text-sm text-gray-400">Seamless transition between web and
+                                                        VR/AR experiences</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Spatial Audio</h5>
+                                                    <p class="text-sm text-gray-400">3D positional sound for more
+                                                        immersive
+                                                        experiences</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Hand Tracking</h5>
+                                                    <p class="text-sm text-gray-400">Natural interaction using hand
+                                                        gestures
+                                                        in VR/AR</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Environment Mapping</h5>
+                                                    <p class="text-sm text-gray-400">Real-world integration for AR
+                                                        experiences</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-item flex flex-col md:flex-row">
+                                <div class="roadmap-dot"></div>
+                                <div class="md:w-1/4 mb-4 md:mb-0">
+                                    <div class="gradient-border p-4 text-center">
+                                        <h4 class="text-xl font-bold mb-2">2027+</h4>
+                                        <p class="text-primary font-semibold">Future Vision</p>
+                                    </div>
+                                </div>
+                                <div class="md:w-3/4 md:pl-8">
+                                    <div class="card-3d gradient-border p-6">
+                                        <h3 class="text-2xl font-bold mb-4">AI-Enhanced Experiences</h3>
+                                        <p class="text-gray-300 mb-6">Leveraging artificial intelligence to create
+                                            dynamic,
+                                            personalized, and evolving 3D worlds.</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Procedural Content Generation</h5>
+                                                    <p class="text-sm text-gray-400">AI-generated environments and
+                                                        assets
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Adaptive User Experiences</h5>
+                                                    <p class="text-sm text-gray-400">Personalized interactions based on
+                                                        user
+                                                        behavior</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Natural Language Interaction</h5>
+                                                    <p class="text-sm text-gray-400">Conversational interfaces for 3D
+                                                        environments</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <div class="w-5 h-5 flex items-center justify-center mt-1 mr-2">
+                                                    <i class="ri-check-line ri-sm text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-semibold">Intelligent Virtual Agents</h5>
+                                                    <p class="text-sm text-gray-400">AI-powered characters with
+                                                        realistic
+                                                        behaviors</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+<!-- About Section -->
+            <section id="about" class="relative py-24 bg-[#030712]">
+
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold mb-4">About <span class="gradient-text">Me</span></h2>
+                        <p class="text-xl text-gray-300 max-w-3xl mx-auto">Lorem ipsum dolor, sit amet consectetur
+                            adipisicing elit. Maiores qui perspiciatis nisi voluptatem nulla, corporis veritatis velit
+                            esse saepe nemo?</p>
+                    </div>
+                    <div class="justify-center items-center">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="team-card h-96  flex justify-center items-center">
+                                <div class="team-card-inner w-full h-full flex itemin-h-screenms-center justify-center">
+                                    <!--Front side of card-->
+                                    <div
+                                        class="team-card-front gradient-border p-6 flex flex-col items-center justify-center">
+                                        <div class="w-32 h-32 rounded-full overflow-hidden mb-6 gradient-border">
+                                            <img src="my.jpg" alt="Profile image"
+                                                class="w-full h-full object-cover object-top">
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-1">K.Kabelesh</h3>
+                                        <p class="text-primary font-semibold mb-4">Innovator</p>
+                                        <p class="text-gray-300 text-center">INTRODUCTION Lorem ipsum dolor sit amet
+                                            consectetur
+                                            adipisicing elit. Quam ab placeat reprehenderit.</p>
+                                    </div>
+                                    <!--Back side of card-->
+                                    <div class="team-card-back gradient-border p-6 bg-[#0f172a]">
+                                        <h3 class="text-xl font-bold mb-4 text-center">Details</h3>
+
+                                        <div class="space-y-3">
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                                                    <i class="ri-school-line text-primary"></i>
+                                                </div>
+                                                <span class="text-gray-300">School:- T/R.K.M Sri Koneswara Hindu
+                                                    College</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                                                    <i class="ri-gmail-cap-line text-primary"></i>
+                                                </div>
+                                                <span class="text-gray-300">Email:- kkabelesh@gmail.com</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                                                    <i class="ri-phone-line text-primary"></i>
+                                                </div>
+                                                <span class="text-gray-300">Contatct:- +94704111114</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-6 flex justify-center space-x-4">
+                                            <a href="#" class="text-gray-300 hover:text-primary transition-colors">
+                                                <div class="w-8 h-8 flex items-center justify-center">
+                                                    <i class="ri-instagram-fill ri-lg"></i>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="text-gray-300 hover:text-primary transition-colors">
+                                                <div class="w-8 h-8 flex items-center justify-center">
+                                                    <i class="ri-github-fill ri-lg"></i>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="text-gray-300 hover:text-primary transition-colors">
+                                                <div class="w-8 h-8 flex items-center justify-center">
+                                                    <i class="ri-facebook-fill ri-lg"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <img id="about-image" src="verification.jpg" alt="Verification system image" class="">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+    </main>
+    <footer class="bg-[#030712] py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="#" class="text-2xl font-['Bebas Neue'] gradient-text mb-4 inline-block">R-LiVe</a>
+                    <p class="text-gray-400 mb-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis,
+                        eius!</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-instagram-fill ri-lg"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-facebook-fill ri-lg"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-github-fill ri-lg"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-linkedin-fill ri-lg"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-primary transition-colors">How it
+                                Works</a></li>
+                        <li><a href="#what-we-used" class="text-gray-400 hover:text-primary transition-colors">What We
+                                Used</a></li>
+                        <li><a href="#coding" class="text-gray-400 hover:text-primary transition-colors">Coding</a></li>
+                        <li><a href="#what-we-need" class="text-gray-400 hover:text-primary transition-colors">What We
+                                Need</a></li>
+                        <li><a href="#future-plan" class="text-gray-400 hover:text-primary transition-colors">Future
+                                Plan</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-primary transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+<h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Documentation</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">API Reference</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Community Forum</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">GitHub Repository</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Release Notes</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam,
+                        repellendus!</p>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script id="navigationScript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbar = document.getElementById('navbar');
+            const menuBtn = document.getElementById('menuBtn');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const navItems = document.querySelectorAll('.nav-item');
+            const progressBar = document.getElementById('progressBar');
+            // Handle scroll for navbar transparency
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-[#0a0a1a]', 'shadow-lg');
+                    navbar.classList.remove('bg-transparent');
+                } else {
+                    navbar.classList.remove('bg-[#0a0a1a]', 'shadow-lg');
+                    navbar.classList.add('bg-transparent');
+                }
+                // Update progress bar
+                const scrollPosition = window.scrollY;
+                const totalHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = (scrollPosition / totalHeight) * 100;
+                progressBar.style.width = ${progress}%;
+                // Update active nav item based on scroll position
+                const sections = document.querySelectorAll('section');
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.offsetHeight;
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSectionId = section.id;
+                    }
+                });
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === #${currentSectionId}) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+            // Mobile menu toggle
+            menuBtn.addEventListener('click', function () {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+            });
+            closeMenuBtn.addEventListener('click', function () {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+            });
+            // Close mobile menu when clicking a nav item
+            document.querySelectorAll('#mobileMenu .nav-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('translate-x-full');
+                });
+            });
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script id="particleScript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const particleContainer = document.getElementById('particleContainer');
+            if (!particleContainer) return;
+            const particleCount = 50;
+            const colors = ['#8A2BE2', '#00BFFF', '#FFFFFF'];
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 4;
+                // Apply styles
+                particle.style.width = ${size}px;
+                particle.style.height = ${size}px;
+                particle.style.backgroundColor = color;
+                particle.style.left = ${left}%;
+                particle.style.top = ${top}%;
+                particle.style.animationDelay = ${delay}s;
+                particleContainer.appendChild(particle);
+            }
+            // Mouse move effect for hero animation
+            const heroAnimation = document.getElementById('heroAnimation');
+            if (heroAnimation) {
+                document.addEventListener('mousemove', function (e) {
+                    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+                    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+                    heroAnimation.style.transform = translate(${moveX}px, ${moveY}px);
+                });
+            }
+        });
+    </script>
+    <script id="chartScript">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Budget Chart
+            const budgetChartElement = document.getElementById('budgetChart');
+            if (budgetChartElement) {
+                const budgetChart = echarts.init(budgetChartElement);
+                const budgetOption = {
+                    animation: false,
+                    tooltip: {
+                        trigger: 'item',
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                        textStyle: {
+                            color: '#1f2937'
+                        }
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        right: 10,
+                        top: 'center',
+                        textStyle: {
+                            color: '#d1d5db'
+                        }
+                    },
+                    series: [
+                        {
+                            name: 'Budget Allocation',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 8,
+                                borderColor: '#0a0a1a',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '14',
+                                    fontWeight: 'bold',
+                                    color: '#ffffff'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: [
+                                { value: 40, name: 'Development', itemStyle: { color: 'rgba(87, 181, 231, 1)' } },
+                                { value: 25, name: '3D Assets', itemStyle: { color: 'rgba(141, 211, 199, 1)' } },
+                                { value: 15, name: 'Infrastructure', itemStyle: { color: 'rgba(251, 191, 114, 1)' } },
+                                { value: 10, name: 'Testing', itemStyle: { color: 'rgba(252, 141, 98, 1)' } },
+                                { value: 10, name: 'Marketing', itemStyle: { color: '#8A2BE2' } }
+                            ]
+                        }
+                    ]
+                };
+                budgetChart.setOption(budgetOption);
+                window.addEventListener('resize', function () {
+                    budgetChart.resize();
+                });
+            }
+        });
+    </script>
+    <script id="interactionScript">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Custom checkbox interaction
+            const customCheckboxes = document.querySelectorAll('.custom-checkbox');
+            customCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function () {
+                    this.checked = !this.checked;
+                });
+            });
+            // Card hover effect
+            const cards = document.querySelectorAll('.card-3d');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function (e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20;
+                    const rotateY = (centerX - x) / 20;
+                    this.style.transform = perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px);
+                });
+                card.addEventListener('mouseleave', function () {
+                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+                });
+            });
+            // Form validation
+            const contactForm = document.querySelector('form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const nameInput = document.getElementById('name');
+                    const emailInput = document.getElementById('email');
+                    const messageInput = document.getElementById('message');
+                    let isValid = true;
+                    if (!nameInput.value.trim()) {
+                        nameInput.classList.add('ring-2', 'ring-red-500');
+                        isValid = false;
+                    } else {
+                        nameInput.classList.remove('ring-2', 'ring-red-500');
+                    }
+                    if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
+                        emailInput.classList.add('ring-2', 'ring-red-500');
+                        isValid = false;
+                    } else {
+                        emailInput.classList.remove('ring-2', 'ring-red-500');
+                    }
+                    if (!messageInput.value.trim()) {
+                        messageInput.classList.add('ring-2', 'ring-red-500');
+                        isValid = false;
+                    } else {
+                        messageInput.classList.remove('ring-2', 'ring-red-500');
+                    }
+                    if (isValid) {
+                        // Simulate form submission
+                        const submitButton = contactForm.querySelector('button[type="submit"]');
+                        submitButton.innerHTML = 'Sending...';
+                        submitButton.disabled = true;
+                        setTimeout(() => {
+                            submitButton.innerHTML = 'Message Sent!';
+                            submitButton.classList.add('bg-green-500');
+                            submitButton.classList.remove('bg-primary');
+                            // Reset form
+                            contactForm.reset();
+                            // Reset button after delay
+                            setTimeout(() => {
+                                submitButton.innerHTML = 'Send Message';
+                                submitButton.classList.remove('bg-green-500');
+                                submitButton.classList.add('bg-primary');
+                                submitButton.disabled = false;
+                            }, 3000);
+                        }, 1500);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <button id="backToTop"
+        class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-opacity-80 transition-all duration-300 flex items-center justify-center opacity-0 invisible z-50">
+        <i class="ri-arrow-up-line ri-lg"></i>
+    </button>
+
+    <script id="backToTopScript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTopButton = document.getElementById('backToTop');
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 500) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                }
+            });
+
+            backToTopButton.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
